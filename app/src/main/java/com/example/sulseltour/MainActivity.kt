@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -50,69 +51,77 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationBar() {
     val navigationController = rememberNavController()
-    val context = LocalContext.current.applicationContext
-    val selected = remember {
-        mutableStateOf(Icons.Default.Home)
-    }
+    val selected = remember { mutableStateOf("Home") }
 
     Scaffold(
         bottomBar = {
             BottomAppBar {
-                IconButton(onClick = {
-                    selected.value = Icons.Default.Home
-                    navigationController.navigate(Screens.Home.screen) {
-                        popUpTo(0)
+                Row(modifier = Modifier.fillMaxSize()) {
+                    IconButton(onClick = {
+                        selected.value = "Home"
+                        navigationController.navigate(Screens.Home.screen) {
+                            popUpTo(Screens.Home.screen) { inclusive = true }
+                        }
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = "Home",
+                            tint = if (selected.value == "Home") Color.White else Color.DarkGray
+                        )
                     }
-                },
-                    modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Home, contentDescription = null, modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.Home) Color.White else Color.DarkGray)
-                }
 
-                IconButton(onClick = {
-                    selected.value = Icons.Default.Search
-                    navigationController.navigate(Screens.Home.screen) {
-                        popUpTo(0)
+                    IconButton(onClick = {
+                        selected.value = "Search"
+                        navigationController.navigate(Screens.Explore.screen) {
+                            popUpTo(Screens.Explore.screen) { inclusive = true }
+                        }
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = "Search",
+                            tint = if (selected.value == "Search") Color.White else Color.DarkGray
+                        )
                     }
-                },
-                    modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.Search) Color.White else Color.DarkGray)
-                }
 
-                IconButton(onClick = {
-                    selected.value = Icons.Default.Favorite
-                    navigationController.navigate(Screens.Home.screen) {
-                        popUpTo(0)
+                    IconButton(onClick = {
+                        selected.value = "Favorite"
+                        navigationController.navigate(Screens.DaftarFavorit.screen) {
+                            popUpTo(Screens.DaftarFavorit.screen) { inclusive = true }
+                        }
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(
+                            Icons.Default.Favorite,
+                            contentDescription = "Favorite",
+                            tint = if (selected.value == "Favorite") Color.White else Color.DarkGray
+                        )
                     }
-                },
-                    modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Favorite, contentDescription = null, modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.Favorite) Color.White else Color.DarkGray)
-                }
 
-                IconButton(onClick = {
-                    selected.value = Icons.Default.Person
-                    navigationController.navigate(Screens.Home.screen) {
-                        popUpTo(0)
+                    IconButton(onClick = {
+                        selected.value = "Profile"
+                        navigationController.navigate(Screens.Profile.screen) {
+                            popUpTo(Screens.Profile.screen) { inclusive = true }
+                        }
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profile",
+                            tint = if (selected.value == "Profile") Color.White else Color.DarkGray
+                        )
                     }
-                },
-                    modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.Person) Color.White else Color.DarkGray)
                 }
             }
         }
-    ) {
-        paddingValues ->
-        NavHost(navController = navigationController,
+    ) { paddingValues ->
+        NavHost(
+            navController = navigationController,
             startDestination = Screens.Home.screen,
-        modifier = Modifier.padding(paddingValues)) {
-            composable(Screens.Home.screen){ Home() }
-            composable(Screens.Explore.screen){ Explore() }
-            composable(Screens.DaftarFavorit.screen){ DaftarFavorit() }
-            composable(Screens.Profile.screen){ Profile() }
-    }
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            composable(Screens.Home.screen) { Home() }
+            composable(Screens.Explore.screen) { Explore() }
+            composable(Screens.DaftarFavorit.screen) { DaftarFavorit() }
+            composable(Screens.Profile.screen) { Profile() }
+        }
     }
 }
 
