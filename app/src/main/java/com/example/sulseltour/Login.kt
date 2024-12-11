@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -68,6 +70,8 @@ fun LoginPage(navController: NavController) {
     var passwordVisible by remember { mutableStateOf(false) }
     var isChecked by remember { mutableStateOf(false) }
     var isSignedIn by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -174,9 +178,15 @@ fun LoginPage(navController: NavController) {
         ) {
             Button(
                 onClick = {
+                    isLoading = true
                     signIn(email, password) { success ->
-                        isSignedIn = success
-                    }//
+                        isLoading = false
+                        if (success) {
+                            navController.navigate("NavigationBar")
+                        } else {
+                            errorMessage = "Login failed"
+                        }
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black
@@ -186,13 +196,23 @@ fun LoginPage(navController: NavController) {
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(
-                    text = "Login",
-                    color = Color.White
-                )
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text(
+                        text = "Login",
+                        color = Color.White
+                    )
+                }
             }
-            if (isSignedIn){
-                navController.navigate("NavigationBar")
+
+// Display error message
+            if (errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))

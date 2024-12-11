@@ -32,22 +32,15 @@ fun NavigationComponent(navController: NavHostController) {
         composable("Onboarding") {
             OnboardingScreen(navController = navController)
         }
-        composable("Home") {
-            NavigationBar()
-        }
         composable("RegisterScreen") {
             RegisterPage(navController = navController)
         }
         composable("LoginScreen") {
             LoginPage(navController = navController)
         }
-        composable("NavigationBar"){
+        composable("NavigationBar") {
             NavigationBar()
         }
-        composable(Screens.Home.screen) { Home() }
-        composable(Screens.Explore.screen) { Explore() }
-        composable(Screens.DaftarFavorit.screen) { DaftarFavorit() }
-        composable(Screens.Profile.screen) { Profile() }
     }
 }
 
