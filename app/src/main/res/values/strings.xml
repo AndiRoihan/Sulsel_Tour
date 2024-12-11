@@ -2,4 +2,5 @@
     <string name="app_name">Sulsel Tour</string>
     <string name="favorite_image">Gambar wisata favorit</string>
     <string name="favorite_icon">Ikon favorit</string>
+    <string name="profile_picture">Profile Picture</string>
 </resources>
