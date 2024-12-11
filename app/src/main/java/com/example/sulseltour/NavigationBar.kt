@@ -84,7 +84,8 @@ fun NavigationBar() {
                 }
             }
         }
-    ) { paddingValues ->
+    )
+    { paddingValues ->
         NavHost(
             navController = navigationController,
             startDestination = Screens.Home.screen,

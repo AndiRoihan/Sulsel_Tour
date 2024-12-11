@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "544508033698",
+    "project_id": "sulsel-tour",
+    "storage_bucket": "sulsel-tour.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544508033698:android:03f84c445f9ec214b835fb",
+        "android_client_info": {
+          "package_name": "com.example.sulseltour"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUdqNEiPEGPc_TdUQBEFMi10Slpi1FXI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
