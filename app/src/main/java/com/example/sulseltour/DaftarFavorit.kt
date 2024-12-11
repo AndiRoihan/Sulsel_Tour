@@ -19,16 +19,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sulseltour.R
 import com.example.sulseltour.ui.theme.SulselTourTheme
 
 @Composable
 fun DaftarFavorit() {
     // Simulasi data untuk daftar favorit
     val favoritList = listOf(
-        FavoritItem(R.drawable.image1, "Wisata 1", "Deskripsi wisata 1", "Makassar"),
-        FavoritItem(R.drawable.image2, "Wisata 2", "Deskripsi wisata 2", "Luwu"),
-        FavoritItem(R.drawable.image3, "Wisata 3", "Deskripsi wisata 3", "Maros")
+        FavoritItem(R.drawable.favorit_image1, "Wisata 1", "Deskripsi wisata 1", "Makassar"),
+        FavoritItem(R.drawable.favorit_image2, "Wisata 2", "Deskripsi wisata 2", "Luwu"),
+        FavoritItem(R.drawable.favorit_image3, "Wisata 3", "Deskripsi wisata 3", "Maros")
     )
 
     LazyColumn(
@@ -63,7 +62,7 @@ fun FavoritCard(item: FavoritItem) {
                         .height(200.dp)
                 )
                 Icon(
-                    painter = painterResource(id = R.drawable.favorite),
+                    painter = painterResource(id = R.drawable.icon_favorite),
                     contentDescription = stringResource(id = R.string.favorite_icon),
                     tint = Color.Red,
                     modifier = Modifier
@@ -92,7 +91,7 @@ fun FavoritCard(item: FavoritItem) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.location),
+                        painter = painterResource(id = R.drawable.icon_location),
                         contentDescription = null,
                         tint = Color.Gray,
                         modifier = Modifier.size(16.dp)
