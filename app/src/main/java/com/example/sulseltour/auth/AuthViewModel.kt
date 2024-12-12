@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.sulseltour.auth
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -11,10 +11,6 @@ class AuthViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 onResult(task.isSuccessful)
             }
-    }
-
-    fun signOut() {
-        auth.signOut()
     }
 
     fun register(email: String, password: String, onResult: (Boolean) -> Unit) {

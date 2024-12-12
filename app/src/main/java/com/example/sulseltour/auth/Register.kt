@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.sulseltour.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,12 +44,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.sulseltour.ui.theme.SulselTourTheme
+import com.example.sulseltour.R
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -69,6 +69,8 @@ fun RegisterPage(navController: NavController) {
     var passwordVisible by remember { mutableStateOf(false) }
     var isChecked by remember { mutableStateOf(false) }
     var isRegistered by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -81,9 +83,9 @@ fun RegisterPage(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(R.drawable.logo),
+                painter = painterResource(R.drawable.authlogo),
                 contentDescription = null,
-                modifier = Modifier.width(120.dp)
+                modifier = Modifier.width(180.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -192,9 +194,17 @@ fun RegisterPage(navController: NavController) {
             verticalArrangement = Arrangement.Bottom
         ) {
             Button(
-                onClick = { register(email, password) { success ->
-                    isRegistered = success
-                } },
+                onClick = {
+                    isLoading = true
+                    register(email, password) { success ->
+                        isLoading = false
+                        if (success) {
+                            navController.navigate("NavigationBar")
+                        } else {
+                            errorMessage = "Sign up failed"
+                        }
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black
                 ),
@@ -203,13 +213,22 @@ fun RegisterPage(navController: NavController) {
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(
-                    text = "Sign Up",
-                    color = Color.White
-                )
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text(
+                        text = "Sign Up",
+                        color = Color.White
+                    )
+                }
             }
-            if (isRegistered) {
-                navController.navigate("Home")
+
+            if (errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -217,7 +236,6 @@ fun RegisterPage(navController: NavController) {
             // Create an annotated string with "Sign Up" in a different color
             val annotatedText = buildAnnotatedString {
                 append("Already have an account? ")
-                // Make "Sign Up" clickable and red
                 pushStringAnnotation(tag = "SIGN_IN", annotation = "SignIn")
                 withStyle(style = SpanStyle(color = Color.Red, fontStyle = FontStyle.Italic)) {
                     append("Sign In")
@@ -232,7 +250,7 @@ fun RegisterPage(navController: NavController) {
                 onClick = { offset ->
                     annotatedText.getStringAnnotations(tag = "SIGN_IN", start = offset, end = offset)
                         .firstOrNull()?.let {
-                            navController.navigate("NavigationBar")
+                            navController.navigate("LoginScreen")
                         }
                 }
             )

@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.sulseltour.mainpage
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,7 +39,7 @@ fun NavigationBar() {
                         Icon(
                             Icons.Default.Home,
                             contentDescription = "Home",
-                            tint = if (selected.value == "Home") Color.White else Color.DarkGray
+                            tint = if (selected.value == "Home") Color.Black else Color.DarkGray
                         )
                     }
 
@@ -52,7 +52,7 @@ fun NavigationBar() {
                         Icon(
                             Icons.Default.Search,
                             contentDescription = "Search",
-                            tint = if (selected.value == "Search") Color.White else Color.DarkGray
+                            tint = if (selected.value == "Search") Color.Black else Color.DarkGray
                         )
                     }
 
@@ -65,7 +65,7 @@ fun NavigationBar() {
                         Icon(
                             Icons.Default.Favorite,
                             contentDescription = "Favorite",
-                            tint = if (selected.value == "Favorite") Color.White else Color.DarkGray
+                            tint = if (selected.value == "Favorite") Color.Black else Color.DarkGray
                         )
                     }
 
@@ -78,7 +78,7 @@ fun NavigationBar() {
                         Icon(
                             Icons.Default.Person,
                             contentDescription = "Profile",
-                            tint = if (selected.value == "Profile") Color.White else Color.DarkGray
+                            tint = if (selected.value == "Profile") Color.Black else Color.DarkGray
                         )
                     }
                 }
@@ -87,7 +87,7 @@ fun NavigationBar() {
     ) { paddingValues ->
         NavHost(
             navController = navigationController,
-            startDestination = Screens.Home.screen,
+            startDestination = Screens.Profile.screen,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screens.Home.screen) { Home() }

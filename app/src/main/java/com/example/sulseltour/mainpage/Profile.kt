@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.sulseltour.mainpage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -63,7 +63,7 @@ fun Profile() {
             // Informasi nama dan ID pengguna
             Column {
                 Text(
-                    text = "Nama Pengguna",
+                    text = "Oie",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp

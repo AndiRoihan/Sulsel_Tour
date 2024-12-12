@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.sulseltour.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -45,12 +44,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.sulseltour.ui.theme.SulselTourTheme
+import com.example.sulseltour.R
 import com.google.firebase.auth.FirebaseAuth
 
 private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -84,9 +81,9 @@ fun LoginPage(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(R.drawable.logo),
+                painter = painterResource(R.drawable.authlogo),
                 contentDescription = null,
-                modifier = Modifier.width(120.dp)
+                modifier = Modifier.width(180.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -206,7 +203,6 @@ fun LoginPage(navController: NavController) {
                 }
             }
 
-// Display error message
             if (errorMessage.isNotEmpty()) {
                 Text(
                     text = errorMessage,

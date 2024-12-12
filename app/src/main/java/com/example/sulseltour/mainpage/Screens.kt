@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.sulseltour.mainpage
 
 sealed class Screens(val screen: String) {
     object Home : Screens("home")
