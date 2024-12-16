@@ -61,7 +61,7 @@ fun signIn(email: String, password: String, onResult: (Boolean) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(navController: NavController) {
+fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -81,9 +81,9 @@ fun LoginPage(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(R.drawable.authLogo),
+                painter = painterResource(R.drawable.auth_logo),
                 contentDescription = null,
-                modifier = Modifier.width(180.dp)
+                modifier = Modifier.width(130.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -179,7 +179,9 @@ fun LoginPage(navController: NavController) {
                     signIn(email, password) { success ->
                         isLoading = false
                         if (success) {
-                            navController.navigate("NavigationBar")
+                            navController.navigate("MainScreen") {
+                                popUpTo("Auth") { inclusive = true }
+                            }
                         } else {
                             errorMessage = "Login failed"
                         }
@@ -228,7 +230,7 @@ fun LoginPage(navController: NavController) {
                 onClick = { offset ->
                     annotatedText.getStringAnnotations(tag = "SIGN_UP", start = offset, end = offset)
                         .firstOrNull()?.let {
-                            navController.navigate("RegisterScreen")
+                            navController.navigate("Register")
                         }
                 }
             )

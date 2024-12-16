@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.sulseltour.navigation.MainScreenNavHost
+import com.example.sulseltour.navigation.MainScreenRoutes
 
 @Composable
 fun NavigationBar() {
@@ -32,8 +34,8 @@ fun NavigationBar() {
                 Row(modifier = Modifier.fillMaxSize()) {
                     IconButton(onClick = {
                         selected.value = "Home"
-                        navigationController.navigate(Screens.Home.screen) {
-                            popUpTo(Screens.Home.screen) { inclusive = true }
+                        navigationController.navigate(MainScreenRoutes.Home.route) {
+                            popUpTo(MainScreenRoutes.Home.route) { inclusive = true }
                         }
                     }, modifier = Modifier.weight(1f)) {
                         Icon(
@@ -45,8 +47,8 @@ fun NavigationBar() {
 
                     IconButton(onClick = {
                         selected.value = "Search"
-                        navigationController.navigate(Screens.Explore.screen) {
-                            popUpTo(Screens.Explore.screen) { inclusive = true }
+                        navigationController.navigate(MainScreenRoutes.Explore.route) {
+                            popUpTo(MainScreenRoutes.Explore.route) { inclusive = true }
                         }
                     }, modifier = Modifier.weight(1f)) {
                         Icon(
@@ -58,8 +60,8 @@ fun NavigationBar() {
 
                     IconButton(onClick = {
                         selected.value = "Favorite"
-                        navigationController.navigate(Screens.DaftarFavorit.screen) {
-                            popUpTo(Screens.DaftarFavorit.screen) { inclusive = true }
+                        navigationController.navigate(MainScreenRoutes.DaftarFavorit.route) {
+                            popUpTo(MainScreenRoutes.DaftarFavorit.route) { inclusive = true }
                         }
                     }, modifier = Modifier.weight(1f)) {
                         Icon(
@@ -71,8 +73,8 @@ fun NavigationBar() {
 
                     IconButton(onClick = {
                         selected.value = "Profile"
-                        navigationController.navigate(Screens.Profile.screen) {
-                            popUpTo(Screens.Profile.screen) { inclusive = true }
+                        navigationController.navigate(MainScreenRoutes.Profile.route) {
+                            popUpTo(MainScreenRoutes.Profile.route) { inclusive = true }
                         }
                     }, modifier = Modifier.weight(1f)) {
                         Icon(
@@ -85,15 +87,10 @@ fun NavigationBar() {
             }
         }
     ) { paddingValues ->
-        NavHost(
+        MainScreenNavHost(
             navController = navigationController,
-            startDestination = Screens.Profile.screen,
+            startDestination = MainScreenRoutes.Home.route,
             modifier = Modifier.padding(paddingValues)
-        ) {
-            composable(Screens.Home.screen) { Home() }
-            composable(Screens.Explore.screen) { Explore() }
-            composable(Screens.DaftarFavorit.screen) { DaftarFavorit() }
-            composable(Screens.Profile.screen) { Profile() }
-        }
+        )
     }
 }

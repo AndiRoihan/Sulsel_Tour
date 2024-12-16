@@ -99,7 +99,7 @@ fun OnboardingScreen(navController: NavController) {
                             if (pagerState.currentPage < pages.size - 1) {
                                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
                             } else {
-                                navController.navigate("LoginScreen") {
+                                navController.navigate("Login") {
                                     popUpTo("Onboarding") { inclusive = true }
                                 }
                             }
