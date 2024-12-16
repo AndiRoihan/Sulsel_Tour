@@ -81,7 +81,7 @@ fun LoginPage(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(R.drawable.authlogo),
+                painter = painterResource(R.drawable.authLogo),
                 contentDescription = null,
                 modifier = Modifier.width(180.dp)
             )
@@ -235,21 +235,3 @@ fun LoginPage(navController: NavController) {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun LoginPreview() {
-//    SulselTourTheme {
-//        LoginPage(navController)
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun LoginPagePreview() {
-//    val navController = rememberNavController()
-//
-//    SulselTourTheme {
-//        LoginPage(navController = navController)
-//    }
-//}

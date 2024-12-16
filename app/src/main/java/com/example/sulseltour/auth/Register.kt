@@ -83,7 +83,7 @@ fun RegisterPage(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(R.drawable.authlogo),
+                painter = painterResource(R.drawable.authLogo),
                 contentDescription = null,
                 modifier = Modifier.width(180.dp)
             )
