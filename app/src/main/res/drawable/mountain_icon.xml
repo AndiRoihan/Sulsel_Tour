@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="45dp"
+    android:height="45dp"
+    android:viewportWidth="45"
+    android:viewportHeight="45">
+    <path
+        android:fillColor="#FFD84848"
+        android:pathData="M22.36 0A22.02 22.02 0 1 0 22.36 44.04 22.02 22.02 0 1 0 22.36 0z"/>
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M23.08 11.75l-3.6 7.3 2.74 5.53-1.54 1.75-4.31-8.75-5.75 11.67H31.7l-8.62-17.5Z"/>
+</vector>

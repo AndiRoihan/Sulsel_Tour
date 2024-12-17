@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             MainApp()
+//            VerticalAndHorizontalScroll()
         }
     }
 }

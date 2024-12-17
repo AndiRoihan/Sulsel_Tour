@@ -82,4 +82,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
 
+    implementation("com.github.jakhongirmadaminov:glassmorphic-composables:0.0.4")
+
+
 }
