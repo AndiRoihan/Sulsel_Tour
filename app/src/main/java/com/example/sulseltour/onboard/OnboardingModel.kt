@@ -13,22 +13,22 @@ sealed class OnboardingModel(
     data object FirstPage : OnboardingModel(
         backgroundImage = R.drawable.bg_onboard_1,
         image = R.drawable.img_onboard_1,
-        title = "Your Reading Partner",
-        description = "Read as many book as you want, anywhere you want"
+        title = "Discover Hidden Gems",
+        description = "Explore the beauty of South Sulawesi, from breathtaking beaches to majestic mountains, all in one app"
     )
 
     data object SecondPage : OnboardingModel(
         backgroundImage = R.drawable.bg_onboard_2,
         image = R.drawable.img_onboard_2,
-        title = "Your Personal Library",
-        description = "Organize books in different ways, make your own library"
+        title = "Plan Your Adventure",
+        description = "Find detailed information about destinations, activities, and event to make your journey unforgettable"
     )
 
     data object ThirdPages : OnboardingModel(
         backgroundImage = R.drawable.bg_onboard_3,
         image = R.drawable.img_onboard_3,
-        title = "Search and Filter",
-        description = "Get any book you want within a simple search across your device"
+        title = "Start Exploring Now",
+        description = "Your adventure awaits! Let us guide you to South Sulawesi’s best destinations with ease"
     )
 
 
