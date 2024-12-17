@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,16 +47,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sulseltour.R
 import com.example.sulseltour.ui.theme.SulselTourTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
+fun fetchUsername(onResult: (String?) -> Unit) {
+    val auth = FirebaseAuth.getInstance()
+    val firestore = FirebaseFirestore.getInstance()
 
-// Define EventItem Data Class
-//data class EventItem(
-//    val imageRes: Int,
-//    val title: String,
-//    val location: String,
-//    val startDate: String,
-//    val endDate: String
-//)
+    val userId = auth.currentUser?.uid
+    if (userId != null) {
+        firestore.collection("users").document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val name = document.getString("name")
+                    onResult(name)
+                } else {
+                    onResult(null)
+                }
+            }
+            .addOnFailureListener {
+                onResult(null)
+            }
+    } else {
+        onResult(null)
+    }
+}
 
 @Composable
 fun Home() {
@@ -67,6 +85,15 @@ fun Home() {
         EventItem(R.drawable.pantai_bira, "Bulukumba Event", "Bulukumba", "Start 10-10-2024", "End 12-10-2024"),
         EventItem(R.drawable.toraja_event, "Toraja Event", "Toraja", "Start 11-12-2024", "End 15-12-2024")
     )
+    var username by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        fetchUsername { fetchedName ->
+            username = fetchedName
+            isLoading = false
+        }
+    }
 
     LazyColumn(
         state = verticalScrollState,
@@ -85,13 +112,17 @@ fun Home() {
                         modifier = Modifier.size(50.dp)
                     )
                     Spacer(modifier = Modifier.width(12.dp))
-                    Column {
-                        Text(
-                            text = "Hi Username"
-                        )
-                        Text(
-                            text = "Good Afternoon"
-                        )
+                    if (isLoading) {
+                        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                    } else {
+                        Column {
+                            Text(
+                                text = "Hi ${username ?: "User"}",
+                            )
+                            Text(
+                                text = "Good Afternoon",
+                            )
+                        }
                     }
                 }
                 Image(

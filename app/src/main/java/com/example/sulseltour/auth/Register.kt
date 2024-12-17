@@ -49,16 +49,32 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sulseltour.R
 import com.google.firebase.auth.FirebaseAuth
-
+import com.google.firebase.firestore.FirebaseFirestore
 
 private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-fun register(email: String, password: String, onResult: (Boolean) -> Unit) {
+fun register(email: String, password: String, name: String, onResult: (Boolean) -> Unit) {
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
-            onResult(task.isSuccessful)
+            if (task.isSuccessful) {
+                val userId = auth.currentUser?.uid
+                val user = hashMapOf(
+                    "name" to name,
+                    "email" to email
+                )
+                userId?.let {
+                    firestore.collection("users").document(it).set(user)
+                        .addOnCompleteListener { dbTask ->
+                            onResult(dbTask.isSuccessful)
+                        }
+                } ?: onResult(false)
+            } else {
+                onResult(false)
+            }
         }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -196,7 +212,7 @@ fun RegisterScreen(navController: NavController) {
             Button(
                 onClick = {
                     isLoading = true
-                    register(email, password) { success ->
+                    register(email, password, name) { success ->
                         isLoading = false
                         if (success) {
                             navController.navigate("MainScreen") {
