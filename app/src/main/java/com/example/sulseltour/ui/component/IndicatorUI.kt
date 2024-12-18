@@ -1,4 +1,4 @@
-package com.example.sulseltour.onboard
+package com.example.sulseltour.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

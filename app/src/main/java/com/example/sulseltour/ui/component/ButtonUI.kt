@@ -1,4 +1,4 @@
-package com.example.sulseltour.onboard
+package com.example.sulseltour.ui.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button

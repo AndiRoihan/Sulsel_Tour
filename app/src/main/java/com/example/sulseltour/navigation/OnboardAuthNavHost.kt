@@ -5,10 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.sulseltour.auth.LoginScreen
-import com.example.sulseltour.auth.RegisterScreen
-import com.example.sulseltour.mainpage.NavigationBar
-import com.example.sulseltour.onboard.OnboardingScreen
+import com.example.sulseltour.ui.screen.auth.LoginScreen
+import com.example.sulseltour.ui.screen.auth.RegisterScreen
+import com.example.sulseltour.ui.component.NavigationBar
+import com.example.sulseltour.ui.screen.onboard.OnboardingScreen
 
 //@Serializable object Onboarding
 //

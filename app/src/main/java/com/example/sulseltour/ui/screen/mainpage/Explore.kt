@@ -1,4 +1,4 @@
-package com.example.sulseltour.mainpage
+package com.example.sulseltour.ui.screen.mainpage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

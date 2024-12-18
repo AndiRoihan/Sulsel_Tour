@@ -1,4 +1,4 @@
-package com.example.sulseltour.onboard
+package com.example.sulseltour.ui.screen.onboard
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.sulseltour.data.OnboardingModel
+import com.example.sulseltour.ui.component.ButtonUi
+import com.example.sulseltour.ui.component.IndicatorUI
+import com.example.sulseltour.ui.component.OnboardingGraphUI
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

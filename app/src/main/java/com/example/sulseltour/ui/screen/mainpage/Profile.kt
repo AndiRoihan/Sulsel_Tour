@@ -1,16 +1,21 @@
-package com.example.sulseltour.mainpage
+package com.example.sulseltour.ui.screen.mainpage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,6 +28,17 @@ import com.example.sulseltour.ui.theme.SulselTourTheme
 
 @Composable
 fun Profile() {
+
+    var username by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        fetchUsername { fetchedName ->
+            username = fetchedName
+            isLoading = false
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,18 +78,17 @@ fun Profile() {
 
             // Informasi nama dan ID pengguna
             Column {
-                Text(
-                    text = "Oie",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                if (isLoading) {
+                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                } else {
+                    Text(
+                        text = "Hi ${username ?: "User"}",
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
                     )
-                )
-                Text(
-                    text = "ID: 123456",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
+                }
             }
         }
 

@@ -1,11 +1,8 @@
-package com.example.sulseltour.mainpage
+package com.example.sulseltour.ui.screen.mainpage
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.items
@@ -13,18 +10,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,11 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -46,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sulseltour.R
+import com.example.sulseltour.data.Destination
+import com.example.sulseltour.data.EventItem
 import com.example.sulseltour.ui.theme.SulselTourTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -81,10 +73,51 @@ fun Home() {
     var activeButton by remember { mutableStateOf(1) }
     val buttons = listOf("Event", "Most Viewed", "Nearby")
     val eventList = listOf(
-        EventItem(R.drawable.makasssarevent, "Makassar Event", "Makassar", "Start 24-09-2024", "End 27-09-2024"),
-        EventItem(R.drawable.pantai_bira, "Bulukumba Event", "Bulukumba", "Start 10-10-2024", "End 12-10-2024"),
-        EventItem(R.drawable.toraja_event, "Toraja Event", "Toraja", "Start 11-12-2024", "End 15-12-2024")
+        EventItem(
+            R.drawable.makasssarevent,
+            "Makassar Event",
+            "Makassar",
+            "Start 24-09-2024",
+            "End 27-09-2024"
+        ),
+        EventItem(
+            R.drawable.pantai_bira,
+            "Bulukumba Event",
+            "Bulukumba",
+            "Start 10-10-2024",
+            "End 12-10-2024"
+        ),
+        EventItem(
+            R.drawable.toraja_event,
+            "Toraja Event",
+            "Toraja",
+            "Start 11-12-2024",
+            "End 15-12-2024"
+        )
     )
+    val destinations = listOf(
+        Destination(
+            imageRes = R.drawable.pantai_losari,
+            name = "Pantai Losari",
+            location = "Makassar"
+        ),
+        Destination(
+            imageRes = R.drawable.puncak_rantemario,
+            name = "Puncak Rantemario",
+            location = "Luwu"
+        ),
+        Destination(
+            imageRes = R.drawable.taman_bantimurung,
+            name = "Taman Bantimurung",
+            location = "Maros"
+        ),
+        Destination(
+            imageRes = R.drawable.fort_rotterdam,
+            name = "Fort Rotterdam",
+            location = "Makassar"
+        )
+    )
+
     var username by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(true) }
 
@@ -107,7 +140,7 @@ fun Home() {
             ) {
                 Row {
                     Image(
-                        painter = painterResource(R.drawable.profile),
+                        painter = painterResource(R.drawable.profile_picture),
                         contentDescription = "profile",
                         modifier = Modifier.size(50.dp)
                     )
@@ -296,8 +329,13 @@ fun Home() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
+
             Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
-                Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(
                         text = "Destinations",
                         fontSize = 24.sp,
@@ -306,280 +344,23 @@ fun Home() {
                     Text(
                         text = "Show all",
                         color = Color.Gray,
-                        modifier = Modifier.clickable{}
+                        modifier = Modifier.clickable { }
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                    Box {
-                        Image(
-                            painter = painterResource(R.drawable.pantai_losari),
-                            contentDescription = "pantai_losari",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(width = 165.dp, height = 165.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
-                        IconButton(onClick = {}, modifier = Modifier.align(Alignment.TopEnd)) {
-                            Icon(
-                                painter = painterResource(R.drawable.favorite_icon),
-                                contentDescription = "favorite_icon",
-                                tint = Color.White
-                            )
-                        }
-                        // Overlay Card
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                                .size(width = 135.dp, height = 60.dp)
-                                .align(Alignment.BottomCenter)
-                        ) {
-                            Box(Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.pane),
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentDescription = "pane",
-                                    contentScale = ContentScale.Crop
-                                )
-
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier
-                                        .padding(6.dp)
-                                        .fillMaxSize()
-                                ) {
-                                    Text(
-                                        text = "Pantai Losari",
-                                        color = Color.White,
-                                        fontSize = 12.sp
-                                    )
-                                    Row(modifier = Modifier.fillMaxSize()) {
-                                        Row(
-                                            verticalAlignment = Alignment.Bottom,
-                                            modifier = Modifier.fillMaxHeight()
-                                        ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.location_icon),
-                                                contentDescription = "location_icon",
-                                                modifier = Modifier.padding(bottom = 2.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                            Text(
-                                                text = "Makassar",
-                                                color = Color.White,
-                                                fontSize = 10.sp
-                                            )
-                                        }
-                                    }
-                                }
-                            }
+                for (i in destinations.indices step 2) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        DestinationItem(destinations[i])
+                        if (i + 1 < destinations.size) {
+                            DestinationItem(destinations[i + 1])
                         }
                     }
-
-                    Box {
-                        Image(
-                            painter = painterResource(R.drawable.puncak_rantemario),
-                            contentDescription = "puncak_rantemario",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(width = 165.dp, height = 165.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
-                        IconButton(onClick = {}, modifier = Modifier.align(Alignment.TopEnd)) {
-                            Icon(
-                                painter = painterResource(R.drawable.favorite_icon),
-                                contentDescription = "favorite_icon",
-                                tint = Color.White
-                            )
-                        }
-                        // Overlay Card
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                                .size(width = 135.dp, height = 60.dp)
-                                .align(Alignment.BottomCenter)
-                        ) {
-                            Box(Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.pane),
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentDescription = "pane",
-                                    contentScale = ContentScale.Crop
-                                )
-
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier
-                                        .padding(6.dp)
-                                        .fillMaxSize()
-                                ) {
-                                    Text(
-                                        text = "Puncak Rantemario",
-                                        color = Color.White,
-                                        fontSize = 12.sp
-                                    )
-                                    Row(modifier = Modifier.fillMaxSize()) {
-                                        Row(
-                                            verticalAlignment = Alignment.Bottom,
-                                            modifier = Modifier.fillMaxHeight()
-                                        ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.location_icon),
-                                                contentDescription = "location_icon",
-                                                modifier = Modifier.padding(bottom = 2.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                            Text(
-                                                text = "Luwu",
-                                                color = Color.White,
-                                                fontSize = 10.sp
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                    Box {
-                        Image(
-                            painter = painterResource(R.drawable.taman_bantimurung),
-                            contentDescription = "taman_bantimurung",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(width = 165.dp, height = 165.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
-                        IconButton(onClick = {}, modifier = Modifier.align(Alignment.TopEnd)) {
-                            Icon(
-                                painter = painterResource(R.drawable.favorite_icon),
-                                contentDescription = "favorite_icon",
-                                tint = Color.White
-                            )
-                        }
-                        // Overlay Card
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                                .size(width = 135.dp, height = 60.dp)
-                                .align(Alignment.BottomCenter)
-                        ) {
-                            Box(Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.pane),
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentDescription = "pane",
-                                    contentScale = ContentScale.Crop
-                                )
-
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier
-                                        .padding(6.dp)
-                                        .fillMaxSize()
-                                ) {
-                                    Text(
-                                        text = "Pantai Losari",
-                                        color = Color.White,
-                                        fontSize = 12.sp
-                                    )
-                                    Row(modifier = Modifier.fillMaxSize()) {
-                                        Row(
-                                            verticalAlignment = Alignment.Bottom,
-                                            modifier = Modifier.fillMaxHeight()
-                                        ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.location_icon),
-                                                contentDescription = "location_icon",
-                                                modifier = Modifier.padding(bottom = 2.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                            Text(
-                                                text = "Maros",
-                                                color = Color.White,
-                                                fontSize = 10.sp
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    Box {
-                        Image(
-                            painter = painterResource(R.drawable.fort_rotterdam),
-                            contentDescription = "fort_rotterdam",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(width = 165.dp, height = 165.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
-                        IconButton(onClick = {}, modifier = Modifier.align(Alignment.TopEnd)) {
-                            Icon(
-                                painter = painterResource(R.drawable.favorite_icon),
-                                contentDescription = "favorite_icon",
-                                tint = Color.White
-                            )
-                        }
-                        // Overlay Card
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                                .size(width = 135.dp, height = 60.dp)
-                                .align(Alignment.BottomCenter)
-                        ) {
-                            Box(Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.pane),
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentDescription = "pane",
-                                    contentScale = ContentScale.Crop
-                                )
-
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier
-                                        .padding(6.dp)
-                                        .fillMaxSize()
-                                ) {
-                                    Text(
-                                        text = "Fort Rotterdam",
-                                        color = Color.White,
-                                        fontSize = 12.sp
-                                    )
-                                    Row(modifier = Modifier.fillMaxSize()) {
-                                        Row(
-                                            verticalAlignment = Alignment.Bottom,
-                                            modifier = Modifier.fillMaxHeight()
-                                        ) {
-                                            Image(
-                                                painter = painterResource(R.drawable.location_icon),
-                                                contentDescription = "location_icon",
-                                                modifier = Modifier.padding(bottom = 2.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(4.dp))
-                                            Text(
-                                                text = "Makassar",
-                                                color = Color.White,
-                                                fontSize = 10.sp
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
@@ -669,6 +450,68 @@ fun EventItemCard(event: EventItem) {
                                 fontSize = 10.sp
                             )
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DestinationItem(destination: Destination) {
+    Box {
+        Image(
+            painter = painterResource(destination.imageRes),
+            contentDescription = destination.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(width = 165.dp, height = 165.dp)
+                .clip(RoundedCornerShape(16.dp))
+        )
+        IconButton(onClick = {}, modifier = Modifier.align(Alignment.TopEnd)) {
+            Icon(
+                painter = painterResource(R.drawable.favorite_icon),
+                contentDescription = "favorite_icon",
+                tint = Color.White
+            )
+        }
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .size(width = 135.dp, height = 60.dp)
+                .align(Alignment.BottomCenter)
+        ) {
+            Box(Modifier.fillMaxSize()) {
+                Image(
+                    painter = painterResource(R.drawable.pane),
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = "pane",
+                    contentScale = ContentScale.Crop
+                )
+                Column(
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxSize()
+                ) {
+                    Text(
+                        text = destination.name,
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+                    Row {
+                        Image(
+                            painter = painterResource(R.drawable.location_icon),
+                            contentDescription = "location_icon",
+                            modifier = Modifier.padding(bottom = 2.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = destination.location,
+                            color = Color.White,
+                            fontSize = 10.sp
+                        )
                     }
                 }
             }

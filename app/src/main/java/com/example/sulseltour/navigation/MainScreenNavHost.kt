@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.sulseltour.mainpage.DaftarFavorit
-import com.example.sulseltour.mainpage.Explore
-import com.example.sulseltour.mainpage.Home
-import com.example.sulseltour.mainpage.Profile
+import com.example.sulseltour.ui.screen.mainpage.DaftarFavorit
+import com.example.sulseltour.ui.screen.mainpage.Explore
+import com.example.sulseltour.ui.screen.mainpage.Home
+import com.example.sulseltour.ui.screen.mainpage.Profile
 
 @Composable
 fun MainScreenNavHost(

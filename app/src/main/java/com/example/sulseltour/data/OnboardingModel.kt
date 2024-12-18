@@ -1,4 +1,4 @@
-package com.example.sulseltour.onboard
+package com.example.sulseltour.data
 
 import androidx.annotation.DrawableRes
 import com.example.sulseltour.R

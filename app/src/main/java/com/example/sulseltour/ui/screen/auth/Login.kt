@@ -1,4 +1,4 @@
-package com.example.sulseltour.auth
+package com.example.sulseltour.ui.screen.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -49,42 +49,24 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sulseltour.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-fun register(email: String, password: String, name: String, onResult: (Boolean) -> Unit) {
-    auth.createUserWithEmailAndPassword(email, password)
+fun signIn(email: String, password: String, onResult: (Boolean) -> Unit) {
+    auth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val userId = auth.currentUser?.uid
-                val user = hashMapOf(
-                    "name" to name,
-                    "email" to email
-                )
-                userId?.let {
-                    firestore.collection("users").document(it).set(user)
-                        .addOnCompleteListener { dbTask ->
-                            onResult(dbTask.isSuccessful)
-                        }
-                } ?: onResult(false)
-            } else {
-                onResult(false)
-            }
+            onResult(task.isSuccessful)
         }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navController: NavController) {
-    var name by remember { mutableStateOf("") }
+fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var isChecked by remember { mutableStateOf(false) }
-    var isRegistered by remember { mutableStateOf(false) }
+    var isSignedIn by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
 
@@ -107,7 +89,7 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Let's Get Started",
+                text = "Welcome Back!",
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic,
                 fontSize = 26.sp
@@ -116,7 +98,7 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Create your new account and find more beautiful destination",
+                text = "Stay signed in with your account to make searching easier",
                 textAlign = TextAlign.Center
             )
         }
@@ -127,24 +109,6 @@ fun RegisterScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
-                text = "Name",
-                fontWeight = FontWeight.SemiBold
-            )
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Enter your name") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedTextColor = Color.Black,
-                    unfocusedTextColor = Color.Black
-                ),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
             Text(
                 text = "Email",
                 fontWeight = FontWeight.SemiBold
@@ -212,14 +176,14 @@ fun RegisterScreen(navController: NavController) {
             Button(
                 onClick = {
                     isLoading = true
-                    register(email, password, name) { success ->
+                    signIn(email, password) { success ->
                         isLoading = false
                         if (success) {
                             navController.navigate("MainScreen") {
                                 popUpTo("Auth") { inclusive = true }
                             }
                         } else {
-                            errorMessage = "Sign up failed"
+                            errorMessage = "Login failed"
                         }
                     }
                 },
@@ -235,7 +199,7 @@ fun RegisterScreen(navController: NavController) {
                     CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
                 } else {
                     Text(
-                        text = "Sign Up",
+                        text = "Login",
                         color = Color.White
                     )
                 }
@@ -251,45 +215,25 @@ fun RegisterScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Create an annotated string with "Sign Up" in a different color
             val annotatedText = buildAnnotatedString {
-                append("Already have an account? ")
-                pushStringAnnotation(tag = "SIGN_IN", annotation = "SignIn")
+                append("You don't have an account? ")
+                pushStringAnnotation(tag = "SIGN_UP", annotation = "SignUp")
                 withStyle(style = SpanStyle(color = Color.Red, fontStyle = FontStyle.Italic)) {
-                    append("Sign In")
+                    append("Sign Up")
                 }
                 pop()
             }
 
-            // Display the clickable text
             ClickableText(
                 text = annotatedText,
                 style = MaterialTheme.typography.bodyMedium,
                 onClick = { offset ->
-                    annotatedText.getStringAnnotations(tag = "SIGN_IN", start = offset, end = offset)
+                    annotatedText.getStringAnnotations(tag = "SIGN_UP", start = offset, end = offset)
                         .firstOrNull()?.let {
-                            navController.navigate("Login")
+                            navController.navigate("Register")
                         }
                 }
             )
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun RegisterPreview() {
-//    SulselTourTheme {
-//        RegisterPage()
-//    }
-//}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun RegisterPagePreview() {
-//    val navController = rememberNavController()
-//
-//    SulselTourTheme {
-//        RegisterPage(navController = navController)
-//    }
-//}

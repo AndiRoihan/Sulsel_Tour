@@ -1,4 +1,4 @@
-package com.example.sulseltour.mainpage
+package com.example.sulseltour.ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,8 +17,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sulseltour.navigation.MainScreenNavHost
 import com.example.sulseltour.navigation.MainScreenRoutes
